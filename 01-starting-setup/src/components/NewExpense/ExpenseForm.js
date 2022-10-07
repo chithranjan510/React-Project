@@ -9,22 +9,71 @@ const ExpenseForm = () => {
 
   const titleChangeHandler = (event) => {
     setEnteredTitle(event.target.value);
-  }
+  };
 
   const amountChangeHandler = (event) => {
     setEnteredAmount(event.target.value);
-  }
+  };
 
   const dateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
-  }
+  };
+
+  // const [userInput, setUserInput] = useState({         // using just one useState by passing object of inputs but it fails in some situation so
+  //   enteredTitle: "",                                  // so we use callback function in hook function
+  //   enteredAmount: "",
+  //   enteredDate: "",
+  // });
+
+  // const titleChangeHandler = (event) => {
+  //   setUserInput({
+  //     ...userInput,
+  //     enteredTitle: event.target.value
+  //   });
+  // setUserInput((prevState) => {
+  //   return {...prevState, enteredTitle: event.target.value}
+  // })
+  // };
+
+  // const amountChangeHandler = (event) => {
+  //   setUserInput({
+  //     ...userInput,
+  //     enteredAmount: event.target.value,
+  //   });
+  // };
+
+  // const dateChangeHandler = (event) => {
+  //   setUserInput({
+  //     ...userInput,
+  //     enteredDate: event.target.value,
+  //   });
+  // };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const expenseData = {
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: new Date(enteredDate).toDateString(),
+    };
+    console.log(expenseData);
+
+    setEnteredTitle("");
+    setEnteredAmount("");
+    setEnteredDate("");
+  };
 
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
         <div className="new-expense__control">
           <label>Title</label>
-          <input type="text" onChange={titleChangeHandler} />
+          <input
+            type="text"
+            value={enteredTitle}
+            onChange={titleChangeHandler}
+          />
         </div>
         <div className="new-expense__control">
           <label>Amount</label>
@@ -32,6 +81,7 @@ const ExpenseForm = () => {
             type="number"
             min="10"
             step="10"
+            value={enteredAmount}
             onChange={amountChangeHandler}
           />
         </div>
@@ -41,6 +91,7 @@ const ExpenseForm = () => {
             type="date"
             min="2019-01-01"
             max="2022-12-31"
+            value={enteredDate}
             onChange={dateChangeHandler}
           />
         </div>
